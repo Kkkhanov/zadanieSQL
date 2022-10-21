@@ -1,0 +1,39 @@
+CREATE TABLE IF NOT EXISTS categories (
+id BIGINT PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(255) NOT NULL,
+description VARCHAR(1000) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS products (
+id BIGINT PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(255) NOT NULL,
+description VARCHAR(2500),
+price FLOAT NOT NULL,
+sale FLOAT,
+promo FLOAT
+);
+
+CREATE TABLE IF NOT EXISTS categories_products (
+product_id BIGINT NOT NULL,
+category_id BIGINT NOT NULL,
+PRIMARY KEY (product_id, category_id),
+main BOOLEAN NOT NULL DEFAULT FALSE,
+CONSTRAINT category_product_product_fk FOREIGN KEY (product_id) REFERENCES products (id),
+CONSTRAINT category_product_category_fk FOREIGN KEY (category_id) REFERENCES categories (id)
+);
+
+CREATE TABLE IF NOT EXISTS attachments (
+id BIGINT PRIMARY KEY AUTO_INCREMENT,
+product_id BIGINT NOT NULL,
+filename VARCHAR(255),
+data LONGBLOB NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS attachments_products (
+product_id BIGINT NOT NULL,
+attachment_id BIGINT NOT NULL,
+PRIMARY KEY (product_id, attachment_id),
+main BOOLEAN NOT NULL DEFAULT FALSE,
+CONSTRAINT attachment_product_product_fk FOREIGN KEY (product_id) REFERENCES products (id),
+CONSTRAINT attachment_product_attachment_fk FOREIGN KEY (attachment_id) REFERENCES attachments (id)
+);
